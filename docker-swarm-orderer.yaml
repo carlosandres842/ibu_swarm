@@ -1,0 +1,288 @@
+# Copyright IBM Corp. All Rights Reserved.
+# 
+# SPDX-License-Identifier: Apache-2.0
+#
+
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3.4'
+
+volumes:
+  orderer.prototipo.com:
+  orderer2.prototipo.com:
+  orderer3.prototipo.com:
+  orderer4.prototipo.com:
+  orderer5.prototipo.com:
+
+networks:
+  bymn:
+    external:
+      name: fabric
+
+services:
+  orderer:
+    container_name: orderer
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer.prototipo.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer.prototipo.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.prototipo.com:/var/hyperledger/production/orderer
+    extra_hosts:
+        - "orderer2.prototipo.com:35.247.205.219"
+        - "orderer3.prototipo.com:35.198.48.166"
+        - "orderer4.prototipo.com:35.198.25.41"
+        - "orderer5.prototipo.com:35.247.203.250"
+        - "peer0.org1.prototipo.com:35.199.90.237"
+#        - "peer0.org2.prototipo.com:35.199.90.237"
+#        - "peer1.org1.prototipo.com:35.199.90.237"
+#        - "ca.org1.prototipo.com:35.199.90.237"
+    deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+              condition: on-failure
+            placement:
+              constraints:
+                - node.hostname == blocksaas-01
+    ports:
+      - published: 7050
+        target: 7050
+        mode: host
+    networks:
+      bymn:
+        aliases:
+          - orderer.prototipo.com
+  orderer2:
+    container_name: orderer2
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer2.prototipo.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer2.prototipo.com/tls/:/var/hyperledger/orderer/tls
+    - orderer2.prototipo.com:/var/hyperledger/production/orderer
+    extra_hosts:
+       - "orderer.prototipo.com:35.199.90.237"
+       - "orderer3.prototipo.com:35.198.48.166"
+       - "orderer4.prototipo.com:35.198.25.41"
+       - "orderer5.prototipo.com:35.247.203.250"
+       - "peer0.org1.prototipo.com:35.199.90.237"
+#       - "peer1.org1.prototipo.com:35.199.90.237"
+#       - "ca.org1.prototipo.com:35.199.90.237"
+    deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+              condition: on-failure
+            placement:
+              constraints:
+                - node.hostname == blocksaas-02
+    ports:
+      - published: 7050
+        target: 7050
+        mode: host
+    networks:
+      bymn:
+        aliases:
+          - orderer2.prototipo.com
+  orderer3:
+    container_name: orderer3
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer3.prototipo.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer3.prototipo.com/tls/:/var/hyperledger/orderer/tls
+    - orderer3.prototipo.com:/var/hyperledger/production/orderer
+    extra_hosts:
+       - "orderer.prototipo.com:35.199.90.237"
+       - "orderer2.prototipo.com:35.247.205.219"
+       - "orderer4.prototipo.com:35.198.25.41"
+       - "orderer5.prototipo.com:35.247.203.250"
+       - "peer0.org1.prototipo.com:35.199.90.237"
+#       - "peer1.org1.prototipo.com:35.199.90.237"
+#       - "ca.org1.prototipo.com:35.199.90.237"
+    deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+              condition: on-failure
+            placement:
+              constraints:
+                - node.hostname == blocksaas-03
+    ports:
+      - published: 7050
+        target: 7050
+        mode: host
+    networks:
+      bymn:
+        aliases:
+          - orderer3.prototipo.com
+  orderer4:
+    container_name: orderer4
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer4.prototipo.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer4.prototipo.com/tls/:/var/hyperledger/orderer/tls
+    - orderer4.prototipo.com:/var/hyperledger/production/orderer
+    extra_hosts:
+       - "orderer.prototipo.com:35.199.90.237"
+       - "orderer2.prototipo.com:35.247.205.219"
+       - "orderer3.prototipo.com:35.198.48.166"
+       - "orderer5.prototipo.com:35.247.203.250"
+       - "peer0.org2.prototipo.com:35.247.205.219"
+       - "peer0.org1.prototipo.com:35.199.90.237"
+#       - "peer1.org1.prototipo.com:35.199.90.237"
+#       - "ca.org1.prototipo.com:35.199.90.237"
+    deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+              condition: on-failure
+            placement:
+              constraints:
+                - node.hostname == blocksaas-04
+    ports:
+      - published: 7050
+        target: 7050
+        mode: host
+    networks:
+      bymn:
+        aliases:
+          - orderer4.prototipo.com
+  orderer5:
+    container_name: orderer5
+    image: hyperledger/fabric-orderer
+    environment:
+      - ORDERER_GENERAL_LOGLEVEL=DEBUG
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+      - ORDERER_GENERAL_CLUSTER_CLIENTCERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_CLUSTER_CLIENTPRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_CLUSTER_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ./channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer5.prototipo.com/msp:/var/hyperledger/orderer/msp
+    - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer5.prototipo.com/tls/:/var/hyperledger/orderer/tls
+    - orderer5.prototipo.com:/var/hyperledger/production/orderer
+    extra_hosts:
+       - "orderer.prototipo.com:35.199.90.237"
+       - "orderer2.prototipo.com:35.247.205.219"
+       - "orderer3.prototipo.com:35.198.48.166"
+       - "orderer4.prototipo.com:35.198.25.41"
+       - "peer0.org2.prototipo.com:35.247.205.219"
+       - "peer0.org1.prototipo.com:35.199.90.237"
+#       - "peer1.org1.prototipo.com:35.199.90.237"
+#       - "ca.org1.prototipo.com:35.199.90.237"
+    deploy:
+            mode: replicated
+            replicas: 1
+            restart_policy:
+              condition: on-failure
+            placement:
+              constraints:
+                - node.hostname == blocksaas-05
+    ports:
+      - published: 7050
+        target: 7050
+        mode: host
+    networks:
+      bymn:
+        aliases:
+          - orderer5.prototipo.com

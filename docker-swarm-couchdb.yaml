@@ -1,0 +1,48 @@
+version: "3"
+networks:
+  bymn:
+    external:
+      name: fabric
+services:
+  couchdb0:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.hostname == blocksaas-01
+    hostname: couchdb0
+    image: hyperledger/fabric-couchdb
+    environment:
+      - COUCHDB_USER=blocksaas
+      - COUCHDB_PASSWORD=blocksaas1988
+    ports:
+           - "5984:5984"
+    networks:
+      bymn:
+        aliases:
+        - couchdb0
+  couchdb1:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.hostname == blocksaas-01
+    hostname: couchdb1
+    image: hyperledger/fabric-couchdb
+    environment:
+      - COUCHDB_USER=blocksaas
+      - COUCHDB_PASSWORD=blocksaas1988
+    ports:
+            - "6984:5984"
+    networks:
+      bymn:
+        aliases:
+        - couchdb1
