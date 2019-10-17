@@ -17,8 +17,9 @@ class CreateProductContract extends Contract {
     }
 
     //owner = pubECDSA
-    async create(ctx, id, owner, data) {
+    async create(ctx, owner, data) {
 
+        let id = Date.now();
         let productKey = ('Product' + id);
         let productAsBytes = await ctx.stub.getState(productKey);
 
@@ -29,7 +30,7 @@ class CreateProductContract extends Contract {
 
             if (!walletAsBytes || walletAsBytes.length === 0) {
 
-                return (`Wallet not found`);
+                throw new Error( `Wallet ${owner} does not exist`);
             }
             else {
 
@@ -39,14 +40,14 @@ class CreateProductContract extends Contract {
                 let product = {
                     id,
                     owner,
-                    data,
+                    data:  JSON.parse(data),
                     type: 'asset'
                 };
                 await ctx.stub.putState(productKey, Buffer.from(JSON.stringify(product)));
 
                 //Add to Wallet
-		let dataObject = JSON.parse(data);
-                wallet.assets.push({id:id,name:dataObject.name});
+                let dataObject = JSON.parse(data)
+                wallet.assets.push({id: id, name : dataObject.name});
                 await ctx.stub.putState(walletKey, Buffer.from(JSON.stringify(wallet)));
 
                 return product;
@@ -54,7 +55,7 @@ class CreateProductContract extends Contract {
         }
 
         throw new Error( `Product with id ${id} has already been registered`)
-       
+
     }
 
 

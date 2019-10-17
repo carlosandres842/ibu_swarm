@@ -84,6 +84,8 @@ services:
         - ./crypto-config/peerOrganizations/org1.prototipo.com/peers/peer0.org1.prototipo.com/tls:/etc/hyperledger/fabric/tls
         #- ./crypto-config/peerOrganizations/org1.prototipo.com/peers/peer0.org1.prototipo.com/ca:/etc/hyperledger/fabric/ca
         - peer0.org1.prototipo.com:/var/hyperledger/production
+    extra_hosts:
+        - "orderer.prototipo.com:35.199.90.237"
     
     deploy:
             mode: replicated
@@ -144,6 +146,8 @@ services:
         - ./crypto-config/peerOrganizations/org1.prototipo.com/peers/peer1.org1.prototipo.com/tls:/etc/hyperledger/fabric/tls
         #- ./crypto-config/peerOrganizations/org1.prototipo.com/peers/peer1.org1.prototipo.com/ca:/etc/hyperledger/fabric/ca
         - peer1.org1.prototipo.com:/var/hyperledger/production
+    extra_hosts:
+        - "orderer.prototipo.com:35.199.90.237"
     
     deploy:
             mode: replicated
@@ -205,7 +209,7 @@ services:
         - "peer0.org1.prototipo.com:35.199.90.237"
         - "peer1.org1.prototipo.com:35.199.90.237"
         - "ca.org1.prototipo.com:35.199.90.237"
-        - "peer0.org2.prototipo.com:35.247.205.219"
+        - "peer0.org2.prototipo.com:104.198.26.230"
     networks:
       - bymn
 

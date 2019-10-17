@@ -57,8 +57,9 @@ services:
         - "orderer4.prototipo.com:35.198.25.41"
         - "orderer5.prototipo.com:35.247.203.250"
         - "peer0.org1.prototipo.com:35.199.90.237"
-#        - "peer0.org2.prototipo.com:35.199.90.237"
-#        - "peer1.org1.prototipo.com:35.199.90.237"
+        - "peer0.org3.prototipo.com:35.247.252.187"
+        - "peer0.org2.prototipo.com:104.198.26.230"
+        - "peer1.org1.prototipo.com:35.199.90.237"
 #        - "ca.org1.prototipo.com:35.199.90.237"
     deploy:
             mode: replicated
@@ -105,12 +106,14 @@ services:
     - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer2.prototipo.com/tls/:/var/hyperledger/orderer/tls
     - orderer2.prototipo.com:/var/hyperledger/production/orderer
     extra_hosts:
-       - "orderer.prototipo.com:35.199.90.237"
-       - "orderer3.prototipo.com:35.198.48.166"
-       - "orderer4.prototipo.com:35.198.25.41"
-       - "orderer5.prototipo.com:35.247.203.250"
-       - "peer0.org1.prototipo.com:35.199.90.237"
-#       - "peer1.org1.prototipo.com:35.199.90.237"
+        - "orderer.prototipo.com:35.199.90.237"
+        - "orderer3.prototipo.com:35.198.48.166"
+        - "orderer4.prototipo.com:35.198.25.41"
+        - "orderer5.prototipo.com:35.247.203.250"
+        - "peer0.org1.prototipo.com:35.199.90.237"
+        - "peer0.org2.prototipo.com:104.198.26.230"
+        - "peer0.org3.prototipo.com:35.247.252.187"
+        - "peer1.org1.prototipo.com:35.199.90.237"
 #       - "ca.org1.prototipo.com:35.199.90.237"
     deploy:
             mode: replicated
@@ -157,12 +160,14 @@ services:
     - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer3.prototipo.com/tls/:/var/hyperledger/orderer/tls
     - orderer3.prototipo.com:/var/hyperledger/production/orderer
     extra_hosts:
-       - "orderer.prototipo.com:35.199.90.237"
-       - "orderer2.prototipo.com:35.247.205.219"
-       - "orderer4.prototipo.com:35.198.25.41"
-       - "orderer5.prototipo.com:35.247.203.250"
-       - "peer0.org1.prototipo.com:35.199.90.237"
-#       - "peer1.org1.prototipo.com:35.199.90.237"
+        - "orderer.prototipo.com:35.199.90.237"
+        - "orderer2.prototipo.com:35.247.205.219"
+        - "orderer4.prototipo.com:35.198.25.41"
+        - "orderer5.prototipo.com:35.247.203.250"
+        - "peer0.org1.prototipo.com:35.199.90.237"
+        - "peer0.org2.prototipo.com:104.198.26.230"
+        - "peer0.org3.prototipo.com:35.247.252.187"
+        - "peer1.org1.prototipo.com:35.199.90.237"
 #       - "ca.org1.prototipo.com:35.199.90.237"
     deploy:
             mode: replicated
@@ -209,13 +214,14 @@ services:
     - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer4.prototipo.com/tls/:/var/hyperledger/orderer/tls
     - orderer4.prototipo.com:/var/hyperledger/production/orderer
     extra_hosts:
-       - "orderer.prototipo.com:35.199.90.237"
-       - "orderer2.prototipo.com:35.247.205.219"
-       - "orderer3.prototipo.com:35.198.48.166"
-       - "orderer5.prototipo.com:35.247.203.250"
-       - "peer0.org2.prototipo.com:35.247.205.219"
-       - "peer0.org1.prototipo.com:35.199.90.237"
-#       - "peer1.org1.prototipo.com:35.199.90.237"
+        - "orderer.prototipo.com:35.199.90.237"
+        - "orderer2.prototipo.com:35.247.205.219"
+        - "orderer3.prototipo.com:35.198.48.166"
+        - "orderer5.prototipo.com:35.247.203.250"
+        - "peer0.org2.prototipo.com:104.198.26.230"
+        - "peer0.org1.prototipo.com:35.199.90.237"
+        - "peer0.org3.prototipo.com:35.247.252.187"
+        - "peer1.org1.prototipo.com:35.199.90.237"
 #       - "ca.org1.prototipo.com:35.199.90.237"
     deploy:
             mode: replicated
@@ -262,13 +268,14 @@ services:
     - ./crypto-config/ordererOrganizations/prototipo.com/orderers/orderer5.prototipo.com/tls/:/var/hyperledger/orderer/tls
     - orderer5.prototipo.com:/var/hyperledger/production/orderer
     extra_hosts:
-       - "orderer.prototipo.com:35.199.90.237"
-       - "orderer2.prototipo.com:35.247.205.219"
-       - "orderer3.prototipo.com:35.198.48.166"
-       - "orderer4.prototipo.com:35.198.25.41"
-       - "peer0.org2.prototipo.com:35.247.205.219"
-       - "peer0.org1.prototipo.com:35.199.90.237"
-#       - "peer1.org1.prototipo.com:35.199.90.237"
+        - "orderer.prototipo.com:35.199.90.237"
+        - "orderer2.prototipo.com:35.247.205.219"
+        - "orderer3.prototipo.com:35.198.48.166"
+        - "orderer4.prototipo.com:35.198.25.41"
+        - "peer0.org2.prototipo.com:104.198.26.230"
+        - "peer0.org1.prototipo.com:35.199.90.237"
+        - "peer0.org3.prototipo.com:35.247.252.187"
+        - "peer1.org1.prototipo.com:35.199.90.237"
 #       - "ca.org1.prototipo.com:35.199.90.237"
     deploy:
             mode: replicated

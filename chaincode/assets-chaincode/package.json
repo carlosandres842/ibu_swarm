@@ -1,7 +1,7 @@
 {
-    "name": "fabcar",
+    "name": "assets-chaincode",
     "version": "1.0.0",
-    "description": "FabCar contract implemented in JavaScript",
+    "description": "Multibillionaire blockchain project",
     "main": "index.js",
     "engines": {
         "node": ">=8",
@@ -14,17 +14,22 @@
         "start": "fabric-chaincode-node start"
     },
     "engineStrict": true,
-    "author": "Hyperledger",
+    "author": "",
     "license": "Apache-2.0",
     "dependencies": {
+        "bip39": "^3.0.2",
+        "bs58": "^4.0.1",
+        "elliptic": "^6.5.0",
         "fabric-contract-api": "~1.4.0",
-        "fabric-shim": "~1.4.0"
+        "fabric-shim": "~1.4.0",
+        "js-sha256": "^0.9.0",
+        "ripemd160": "^2.0.2"
     },
     "devDependencies": {
         "chai": "^4.1.2",
         "eslint": "^4.19.1",
         "mocha": "^5.2.0",
-        "nyc": "^12.0.2",
+        "nyc": "^14.1.1",
         "sinon": "^6.0.0",
         "sinon-chai": "^3.2.0"
     },

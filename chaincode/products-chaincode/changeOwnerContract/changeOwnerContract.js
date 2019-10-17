@@ -70,7 +70,7 @@ class ChangeOwnerContract extends Contract {
         keyRSA_Object.importKey(ownerKeys.pubRSA,'components-public')
         keyRSA_Object.importKey(privRSA)
 
-        let objectOwner = keyRSA_Object.decrypt(Buffer.from(ownerKeys.owner), 'utf8')
+        let productOwner = keyRSA_Object.decrypt(Buffer.from(ownerKeys.sign), 'utf8')
 
         
         //Set new pubkey to product
@@ -78,15 +78,15 @@ class ChangeOwnerContract extends Contract {
         let product = JSON.parse(productAsBytes.toString());
         
         
-        if (product.owner === objectOwner) {
+        if (product.owner === productOwner) {
             //Update ledger with product
             product.owner = newPubECDSA
             await ctx.stub.putState(productkey, Buffer.from(JSON.stringify(product)));
 
             //Push product in new owner wallet
             let newOwnerWallet = JSON.parse(newOwnerWalletAsBytes.toString());
-	    let dataObject = JSON.parse(product.data);
-            newOwnerWallet.assets.push({id:product.id,name:dataObject.name});
+            let dataObjetc = JSON.parse(product.data)
+            newOwnerWallet.assets.push({id: product.id, name: dataObjetc.name});
             await ctx.stub.putState(newOwnerWalletKey, Buffer.from(JSON.stringify(newOwnerWallet)));
 
             //Delete product in owner wallet

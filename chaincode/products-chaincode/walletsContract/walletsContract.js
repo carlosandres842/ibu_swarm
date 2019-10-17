@@ -81,9 +81,10 @@ class WalletsContract extends Contract {
 
         //Create key asset
         let keys = {
+            owner:pubECDSA,
             pubRSA,
             cypherPrivRSA,
-            owner:cypherPubECDSA,
+            sign:cypherPubECDSA,
             type:'key'
         }
 
